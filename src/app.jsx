@@ -2,15 +2,45 @@ import React from 'react';
 import './App.css';
 import OrderInfo from './components/OrderInfo';
 import SearchBar from './components/SearchBar/SearchBar';
+import OrderData from "./data/challenge_data";
 
 
-function App() {
-  return (
+class App extends React.Component {
+
+  constructor() {
+
+  }
+
+  onInit() {
+
+  }
+
+  handleFilterTextChange() {
+
+  }
+
+  handleCookingChecked() {
+
+  }
+
+  handleOnHistoricalChecked() {
+
+  }
+
+  displayActiveOrders() {
+
+  }
+
+  render() {
+    return (
       <div class="App">
-        <SearchBar />
-        <OrderInfo />
+          <SearchBar onFilterTextChange={this.handleFilterTextChange}
+                     onCookingChecked={this.handleCookingChecked}
+                     onHistoricalChecked={this.handleOnHistoricalChecked}/>
+          <OrderInfo orders={OrderData} filter={this.displayActiveOrders}/>
       </div>
-  );
+    );
+  }
 }
 
 export default App;

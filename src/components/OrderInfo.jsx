@@ -1,37 +1,29 @@
-import OrderData from '../data/challenge_data.json';
 import './OrderInfo.css';
 import React from 'react';
 
 class OrderInfo extends React.Component {
     render() {
+        const { orders, filter } = this.props;
+        const displayOrders = orders.map(order => filter.call(null, order));
         return (
-            <OrderTable orders={OrderData} />
+            <table>
+                <thead>
+                <tr>
+                    <th>Order for</th>
+                    <th>Current status</th>
+                    <th>Order name</th>
+                </tr>
+                </thead>
+                {displayOrders.map(order =>
+                    <OrderDetailRow
+                        name={order.name}
+                        orderStatus={order.event_name}
+                        destination={order.destination}
+                    ></OrderDetailRow>
+                )}
+            </table>
         )
     }
-}
-
-class OrderTable extends React.Component {
-   render() {
-       const { orders } = this.props;
-       return (
-           <table>
-               <thead>
-               <tr>
-                   <th>Order for</th>
-                   <th>Current status</th>
-                   <th>Order name</th>
-               </tr>
-               </thead>
-               {orders.map(order =>
-                   <OrderDetailRow
-                       name={order.name}
-                       orderStatus={order.event_name}
-                       destination={order.destination}
-                   ></OrderDetailRow>
-               )}
-           </table>
-       )
-   }
 }
 
 class OrderDetailRow extends React.Component {
