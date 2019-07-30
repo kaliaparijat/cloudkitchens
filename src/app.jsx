@@ -1,13 +1,20 @@
 import React from 'react';
 import './App.css';
-import OrderInfo from './components/OrderInfo';
+import OrderTable from './components/OrderInfo';
 import SearchBar from './components/SearchBar/SearchBar';
 import OrderData from "./data/challenge_data";
 
 
 class App extends React.Component {
 
-  constructor() {
+  constructor(props) {
+      super(props);
+      this.state = {
+          searchText: '',
+          isCooking: false,
+          getHistorical: false,
+      };
+
 
   }
 
@@ -15,7 +22,7 @@ class App extends React.Component {
 
   }
 
-  handleFilterTextChange() {
+  handleSearchText() {
 
   }
 
@@ -33,11 +40,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <div class="App">
-          <SearchBar onFilterTextChange={this.handleFilterTextChange}
-                     onCookingChecked={this.handleCookingChecked}
-                     onHistoricalChecked={this.handleOnHistoricalChecked}/>
-          <OrderInfo orders={OrderData} filter={this.displayActiveOrders}/>
+      <div className="App">
+          <SearchBar />
+          <OrderTable orders={OrderData} />
       </div>
     );
   }

@@ -1,13 +1,26 @@
 import React from 'react';
 
-
 class SearchBar extends React.Component {
-    render() {
-        const { onFilterTextChange, onCookingChecked, onHistoricalChecked } = this.props;
-        return (
-            <form class="searchBar">
+    constructor(props){
+        super(props);
+        this.filterByCookingNow = false;
+        this.filterByHistoricalOrders = true;
+    }
 
-                <label for="cooked">Get all cooked orders in past <input
+    searchByCookingNow() {
+        this.filterByCookingNow = !this.filterByCookingNow;
+    }
+
+    showAllHistoricalOrders() {
+        this.filterByHistoricalOrders = !this.filterByHistoricalOrders;
+    }
+
+    render() {
+        const { filterByCookingNow, showAllHistoricalOrders } = this;
+        return (
+            <form className="searchBar">
+
+                <label htmlFor="cooked">Get all cooked orders in past <input
                     type="text"
                     name="cooked"
                 /> seconds</label>
@@ -15,20 +28,21 @@ class SearchBar extends React.Component {
                     <input
                         type="checkbox"
                         name="cooking"
-                        onChange={onFilterTextChange}
+                        onChange={this.searchByCookingNow.bind(this)}
+                        checked={this.filterByCookingNow}
                     />
-                    <label for="cooking"
+                    <label htmlFor="cooking"
                            name="cooking-label"
-                           onCookingChecked={onCookingChecked}
                     >
                         Orders currently cooking
                     </label>
                     <input
                         type="checkbox"
                         name="historical"
-                        onHistoricalChecked={onHistoricalChecked}
+                        onChange={this.showAllHistoricalOrders.bind(this)}
+                        checked={this.filterByHistoricalOrders}
                     />
-                    <label for="historical"
+                    <label htmlFor="historical"
                            name="historical-label"
                     >
                         All processed orders

@@ -1,10 +1,9 @@
 import './OrderInfo.css';
 import React from 'react';
 
-class OrderInfo extends React.Component {
+class OrderTable extends React.Component {
     render() {
-        const { orders, filter } = this.props;
-        const displayOrders = orders.map(order => filter.call(null, order));
+        const { orders } = this.props;
         return (
             <table>
                 <thead>
@@ -14,13 +13,16 @@ class OrderInfo extends React.Component {
                     <th>Order name</th>
                 </tr>
                 </thead>
-                {displayOrders.map(order =>
+                <tbody>
+                {orders.map((order, index) =>
                     <OrderDetailRow
+                        key={index}
                         name={order.name}
                         orderStatus={order.event_name}
                         destination={order.destination}
                     ></OrderDetailRow>
                 )}
+                </tbody>
             </table>
         )
     }
@@ -39,4 +41,4 @@ class OrderDetailRow extends React.Component {
     }
 }
 
-export default OrderInfo;
+export default OrderTable;
