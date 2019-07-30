@@ -4,32 +4,35 @@ class SearchBar extends React.Component {
     constructor(props){
         super(props);
         this.filterByCookingNow = false;
-        this.filterByHistoricalOrders = true;
+        this.filterByHistoricalOrders = false;
+        this.searchText = '';
+        this.toggleFilterByCookingNow = this.toggleFilterByCookingNow.bind(this);
     }
 
-    searchByCookingNow() {
-        this.filterByCookingNow = !this.filterByCookingNow;
-    }
-
-    showAllHistoricalOrders() {
-        this.filterByHistoricalOrders = !this.filterByHistoricalOrders;
+    toggleFilterByCookingNow = () => {
+        this.filterByCookingNow = true;
+        if(this.filterByCookingNow) {
+            this.filterByHistoricalOrders = false;
+            this.searchText = '';
+        }
     }
 
     render() {
-        const { filterByCookingNow, showAllHistoricalOrders } = this;
         return (
             <form className="searchBar">
 
                 <label htmlFor="cooked">Get all cooked orders in past <input
                     type="text"
                     name="cooked"
+                    readOnly
+                    value={this.searchText}
                 /> seconds</label>
                 <p>
                     <input
                         type="checkbox"
                         name="cooking"
-                        onChange={this.searchByCookingNow.bind(this)}
-                        checked={this.filterByCookingNow}
+                        onChange={this.toggleFilterByCookingNow}
+
                     />
                     <label htmlFor="cooking"
                            name="cooking-label"
@@ -39,7 +42,7 @@ class SearchBar extends React.Component {
                     <input
                         type="checkbox"
                         name="historical"
-                        onChange={this.showAllHistoricalOrders.bind(this)}
+                        readOnly
                         checked={this.filterByHistoricalOrders}
                     />
                     <label htmlFor="historical"

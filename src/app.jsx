@@ -17,27 +17,6 @@ class App extends React.Component {
 
 
   }
-
-  onInit() {
-
-  }
-
-  handleSearchText() {
-
-  }
-
-  handleCookingChecked() {
-
-  }
-
-  handleOnHistoricalChecked() {
-
-  }
-
-  displayActiveOrders() {
-
-  }
-
   render() {
     return (
       <div className="App">
