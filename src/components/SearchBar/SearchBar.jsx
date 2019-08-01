@@ -1,20 +1,10 @@
 import React from 'react';
 
 class SearchBar extends React.Component {
-    constructor(props){
-        super(props);
-        this.filterByCookingNow = false;
-        this.filterByHistoricalOrders = false;
-        this.searchText = '';
-        this.toggleFilterByCookingNow = this.toggleFilterByCookingNow.bind(this);
-    }
 
-    toggleFilterByCookingNow = () => {
-        this.filterByCookingNow = true;
-        if(this.filterByCookingNow) {
-            this.filterByHistoricalOrders = false;
-            this.searchText = '';
-        }
+    filterBySelection = (e) => {
+        console.log(`filter by ${e.currentTarget.value}`);
+        this.props.onCookingChange(!this.props.isCooking);
     }
 
     render() {
@@ -24,15 +14,15 @@ class SearchBar extends React.Component {
                 <label htmlFor="cooked">Get all cooked orders in past <input
                     type="text"
                     name="cooked"
-                    readOnly
-                    value={this.searchText}
+                    defaultValue={this.props.searchText}
                 /> seconds</label>
                 <p>
                     <input
-                        type="checkbox"
-                        name="cooking"
-                        onChange={this.toggleFilterByCookingNow}
-
+                        type="radio"
+                        name="filter"
+                        value="cooking"
+                        checked={this.props.isCooking}
+                        onChange={this.filterBySelection}
                     />
                     <label htmlFor="cooking"
                            name="cooking-label"
@@ -40,10 +30,12 @@ class SearchBar extends React.Component {
                         Orders currently cooking
                     </label>
                     <input
-                        type="checkbox"
-                        name="historical"
-                        readOnly
-                        checked={this.filterByHistoricalOrders}
+                        type="radio"
+                        name="filter"
+                        value="historical"
+
+                        checked={this.props.isHistorical}
+                        onChange={this.filterBySelection}
                     />
                     <label htmlFor="historical"
                            name="historical-label"

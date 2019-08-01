@@ -11,19 +11,33 @@ class App extends React.Component {
       super(props);
       this.state = {
           searchText: '',
-          isCooking: false,
-          getHistorical: false,
+          isCooking: true,
+          isHistorical: true,
       };
-
-
   }
+
+  handleIsCooking = (value) => {
+      this.setState({
+          isCooking: value,
+      });
+      console.log(this.state.isCooking);
+  }
+
   render() {
-    return (
-      <div className="App">
-          <SearchBar />
-          <OrderTable orders={OrderData} />
-      </div>
-    );
+      const { searchText, isCooking, isHistorical } = this.state;
+      return (
+          <div className="App">
+              <SearchBar searchText={searchText}
+                         isHistorical={isHistorical}
+                         isCooking={isCooking}
+                         onCookingChange={this.handleIsCooking}
+              />
+              <OrderTable orders={OrderData}
+                          isHistorical={isHistorical}
+                          isCooking={isCooking}
+              />
+          </div>
+      );
   }
 }
 
