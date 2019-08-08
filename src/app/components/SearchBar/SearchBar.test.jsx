@@ -13,3 +13,4 @@ describe('SearchBar',() => {
        expect(1).toEqual(1);
     });
 });
+

@@ -67,3 +67,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
+### TODO: 
+- Add basic tests for SearchBar, OrderTable and OrderDetailRow
+- Filter results by 'cooking only'
+
