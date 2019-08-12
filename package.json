@@ -2,16 +2,17 @@
   "name": "cloudkitchens",
   "version": "0.1.0",
   "private": true,
-  "proxy":  "http://localhost:8080",
-    "dependencies": {
-    "enzyme": "^3.10.0",
+  "proxy": "http://localhost:8080",
+  "dependencies": {
+    "concurrently": "^4.1.1",
     "express": "^4.17.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "socket.io": "^2.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",	  
+    "start": "concurrently \"react-scripts start\" \"npm run start:server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -31,5 +32,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "react-test-renderer": "^16.9.0"
   }
 }

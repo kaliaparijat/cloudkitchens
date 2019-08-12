@@ -1,9 +1,8 @@
 import React from 'react';
 import './App.css';
-import OrderTable from './components/Orders/OrderInfo';
+import OrderTable from './components/Orders/OrderTable';
 import SearchBar from './components/SearchBar/SearchBar';
-import OrderData from "../data/challenge_data";
-
+import openSocket from 'socket.io-client';
 class App extends React.Component {
 
   constructor(props) {
@@ -17,56 +16,27 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-      const newOrders = this.receiveOrders();
-      // this is where the orderData is received based on a socket.io call
-      const response = await fetch('/api/orders', );
-      console.log(await response.json());
-      this.setState({ orders: newOrders });
-  }
-
-  componentDidUpdate() {
-      console.log('component did update');
-
-      // faking a network call that would typically use sockets using setInterval
-      /*
-      let counter = this.state.orders[0].sent_at_second;
-      const sortedOrders = this.sortedOrdersBySecond;
-      const orderIntervalId = setInterval(() => {
-          counter += 1;
-          if (counter >= sortedOrders.length) {
-              debugger;
-              console.log("calls clear interval");
-              clearInterval(orderIntervalId);
-          }
-
-          if (Array.isArray(sortedOrders[counter]) && sortedOrders[counter]) {
-              this.handleNewReceivedOrders(sortedOrders[counter], counter);
-          }
-      }, 1000);*/
-
-  }
-
-  receiveOrders() {
-      OrderData.sort((a, b) => a.sent_at_second - b.sent_at_second);
-      // send the initial orders
-      this.sortedOrdersBySecond = [];
-      OrderData.forEach((o) => {
-          if (!this.sortedOrdersBySecond[o.sent_at_second]) {
-              this.sortedOrdersBySecond[o.sent_at_second] = [];
-          }
-          this.sortedOrdersBySecond[o.sent_at_second].push(o);
+      const socket = openSocket('http://localhost:8080');
+      socket.emit('ready', "client ready");
+      socket.on('ready', (newOrders) => {
+          this.handleNewReceivedOrders(newOrders);
       });
-      const initialOrders = this.sortedOrdersBySecond.find(o =>  Array.isArray(o) && o.length !== 0 );
-      return initialOrders;
   }
-  
-  handleNewReceivedOrders(newOrders, receivedTimeInSeconds) {
-      console.log(`${receivedTimeInSeconds}`, newOrders);
-      // update the state with newOrders
-      // state orders can only have a unique set of orders that are displayed, this is likely the responsibility of the orderTable, the orderTable displays a set of orders
-      const currentOrders = this.state.orders;
-      this.setState({orders: currentOrders.concat(newOrders)} );
+
+  handleNewReceivedOrders(newOrders) {
+      const existingOrders = this.state.orders || [];
+      const newOrderIds = [];
+      // orders are a sorted array, sent by second
+      newOrders.forEach((order) => {
+         newOrderIds.push(order.id);
+      });
+      const retainedOrders = existingOrders.filter((order) => {
+          return newOrderIds.indexOf(order.id) === -1;
+      });
+      const allOrders = newOrders.concat(retainedOrders);
+      this.setState({ orders: allOrders});
   }
+
 
   handleIsCooking = (value) => {
       this.setState({
