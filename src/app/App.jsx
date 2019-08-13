@@ -11,7 +11,8 @@ class App extends React.Component {
           searchText: '',
           isCooking: true,
           isHistorical: true,
-          orders: [],
+          orders: [], // only unique orders,
+          orderLog: {}, // keeps a log of orders,
       };
   }
 
@@ -24,17 +25,24 @@ class App extends React.Component {
   }
 
   handleNewReceivedOrders(newOrders) {
-      const existingOrders = this.state.orders || [];
+      const existingOrders = this.state.orders;
+      const orderLog = this.state.orderLog;
       const newOrderIds = [];
       // orders are a sorted array, sent by second
       newOrders.forEach((order) => {
          newOrderIds.push(order.id);
+         orderLog[order.id] = orderLog[order.id] || [];
+         orderLog[order.id].push(order);
       });
+
       const retainedOrders = existingOrders.filter((order) => {
           return newOrderIds.indexOf(order.id) === -1;
       });
-      const allOrders = newOrders.concat(retainedOrders);
-      this.setState({ orders: allOrders});
+      const currentOrders = newOrders.concat(retainedOrders);
+      this.setState({
+          orders: currentOrders,
+          orderLog: orderLog
+      });
   }
 
 
@@ -56,6 +64,7 @@ class App extends React.Component {
               <OrderTable orders={orders}
                           isHistorical={isHistorical}
                           isCooking={isCooking}
+                          searchText={searchText}
               />
           </div>
       );
