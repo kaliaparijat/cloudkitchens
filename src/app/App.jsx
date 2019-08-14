@@ -11,8 +11,7 @@ class App extends React.Component {
           searchText: '',
           isCooking: true,
           isHistorical: true,
-          orders: [], // only unique orders,
-          orderLog: {}, // keeps a log of orders,
+          orderMap: {},
       };
   }
 
@@ -25,26 +24,20 @@ class App extends React.Component {
   }
 
   handleNewReceivedOrders(newOrders) {
-      const existingOrders = this.state.orders;
-      const orderLog = this.state.orderLog;
-      const newOrderIds = [];
+      const orderLog = this.state.orderMap;
+     // const newOrderIds = [];
       // orders are a sorted array, sent by second
       newOrders.forEach((order) => {
-         newOrderIds.push(order.id);
          orderLog[order.id] = orderLog[order.id] || [];
          orderLog[order.id].push(order);
       });
 
-      const retainedOrders = existingOrders.filter((order) => {
-          return newOrderIds.indexOf(order.id) === -1;
-      });
       const currentOrders = newOrders.concat(retainedOrders);
       this.setState({
           orders: currentOrders,
-          orderLog: orderLog
+          orderMap: orderLog
       });
   }
-
 
   handleIsCooking = (value) => {
       this.setState({
@@ -52,8 +45,35 @@ class App extends React.Component {
       });
   }
 
+  applyFilterCriteria(order) {
+      const {isHistorical, isCooking, searchText} = this.props;
+      if (isHistorical) {
+          return true;
+      }
+      if (isCooking) {
+          return order.event_name === 'CREATED';
+      }
+      return this.inactiveStates.indexOf(order.event_name) < 0;
+  }
+
+  getOrdersToDisplay = () => {
+      const { orderMap, isHistorical, isCooking, searchText } = this.state;
+      const isDefault = !isHistorical && !isCooking && searchText === '';
+      let ordersToDisplay = [];
+      if (isDefault) {
+          Object.values(orderMap).forEach((order) => {
+              if (Array.isArray(order)) {
+                  const latestStateOfOrder = order[order.length - 1];
+                  ordersToDisplay.push(latestStateOfOrder);
+              }
+          });
+      }
+      return ordersToDisplay;
+  }
+
   render() {
-      const { searchText, isCooking, isHistorical, orders } = this.state;
+      const { searchText, isCooking, isHistorical, orderMap } = this.state;
+      const displayOrders = this.getOrdersToDisplay();
       return (
           <div className="App">
               <SearchBar searchText={searchText}
@@ -61,10 +81,7 @@ class App extends React.Component {
                          isCooking={isCooking}
                          onCookingChange={this.handleIsCooking}
               />
-              <OrderTable orders={orders}
-                          isHistorical={isHistorical}
-                          isCooking={isCooking}
-                          searchText={searchText}
+              <OrderTable orders={displayOrders}
               />
           </div>
       );

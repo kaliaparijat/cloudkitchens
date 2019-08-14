@@ -5,19 +5,22 @@ class OrderTable extends React.Component {
 
     inactiveStates = ['DELIVERED', 'CANCELLED'];
 
-    applyFilterCriteria(order) {
-        const { isHistorical, isCooking } = this.props;
-        if (isHistorical) {
-            return true;
-        }
-        if (isCooking) {
-            return order.event_name === 'CREATED';
-        }
-        return this.inactiveStates.indexOf(order.event_name) < 0;
+    componentDidMount() {
+        const { orderMap } = this.props;
+        const allOrders = Object.values(orderMap);
+        this.displayOrders = allOrders.forEach((order) => {
+
+        })
     }
 
+
+
     getOrdersToDisplay() {
-        const { orders } = this.props;
+        const { orderMap } = this.props;
+        const orders = Object.values(orderMap);
+        orders.forEach((order) => {
+
+        })
         orders.sort((a, b) => {
             return b.sent_at_second - a.sent_at_second;
         });

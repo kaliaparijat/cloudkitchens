@@ -68,6 +68,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
 ### TODO: 
-- Add basic tests for SearchBar, OrderTable and OrderDetailRow
-- Filter results by 'cooking only'
+- Display historical orders?
+- Display orders in the past few seconds (wtf)?
+- Add tests for main app component (30 minutes)
+- Search by historical orders (30 mts)
+- Search by cooking only (15 mts)
+- Search by past few seconds (15 mts)]
+
 
