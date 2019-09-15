@@ -1,6 +1,7 @@
 import './OrderTable.css';
 import React from 'react';
 
+/*
 class OrderTable extends React.Component {
 
     inactiveStates = ['DELIVERED', 'CANCELLED'];
@@ -12,8 +13,6 @@ class OrderTable extends React.Component {
 
         })
     }
-
-
 
     getOrdersToDisplay() {
         const { orderMap } = this.props;
@@ -58,19 +57,39 @@ class OrderTable extends React.Component {
             </table>
         )
     }
-}
+}*/
 
-class OrderDetailRow extends React.Component {
-    render() {
-        const { name, orderStatus, destination } = this.props;
-        return (
-            <tr>
-                <td>{destination}</td>
-                <td>{orderStatus}</td>
-                <td>{name}</td>
-            </tr>
-        );
-    }
-}
+export const SimpleOrderTable = (props) =>(
+    <table>
+        <thead>
+        <tr>
+            <th>Order for</th>
+            <th>Current status</th>
+            <th>Order name</th>
+        </tr>
+        </thead>
+        <tbody>
+        {props.orders.map((order) => (
+            <OrderDetailRow
+                key={order.id}
+                name={order.name}
+                destination={order.destination}
+                orderStatus={order.event_name}
+            />
+        ))}
+        </tbody>
+    </table>
+);
 
-export default OrderTable;
+
+export const OrderDetailRow = (props) => {
+    const { name, destination, orderStatus } = props;
+    return (
+        <tr>
+            <td>{name}</td>
+            <td>{destination}</td>
+            <td>{orderStatus}</td>
+        </tr>
+    )
+};
+

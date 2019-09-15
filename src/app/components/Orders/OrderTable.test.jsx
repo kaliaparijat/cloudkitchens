@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { render } from '@testing-library/react';
 
-Enzyme.configure({ adapter: new Adapter() });
-import { shallow } from "enzyme/build";
-import OrderTable from "./OrderTable";
+import { SimpleOrderTable, OrderDetailRow}  from "./OrderTable";
 
 const sortedOrders = [
     {
@@ -18,7 +15,7 @@ const sortedOrders = [
     {
         "destination": "801 Toyopa Dr, Pacific Palisades, CA 90272",
         "event_name": "CANCELLED",
-        "id": "4b76edbf",
+        "id": "4b76edzf",
         "name": "Cheese pizza",
         "sent_at_second": 10
     },
@@ -33,12 +30,12 @@ const sortedOrders = [
 
 describe('OrderTable', () => {
 
-    it('shall render only the active orders by default', () => {
+    test.skip('shall render only the active orders by default', () => {
         const wrapper = shallow(<OrderTable orders={sortedOrders} isHistorical={false} isCooking={false}/>)
         expect(wrapper.find('OrderDetailRow').length).toEqual(1)
     });
 
-    it('shall display orders in descending order of the time the orders were sent', () => {
+    test.skip('shall display orders in descending order of the time the orders were sent', () => {
         const wrapper = shallow(<OrderTable orders={sortedOrders} isHistorical={false} isCooking={false}/>)
         const instance = wrapper.instance();
         const displayOrders = instance.getOrdersToDisplay();
@@ -50,9 +47,28 @@ describe('OrderTable', () => {
         }
     });
 
-    it('shall display only orders that are currently in a CREATED state if isCooking is set to true', () => {
+    test.skip('shall display only orders that are currently in a CREATED state if isCooking is set to true', () => {
         const wrapper = shallow(<OrderTable orders={sortedOrders} isHistorical={false} isCooking={true}/>)
         console.log(wrapper.find('OrderDetailRow'));
 
     });
 });
+
+describe('SimpleOrderTable', () => {
+    it('it receives an array of orders as a prop and renders them as a table', () => {
+        const { asFragment } = render(<SimpleOrderTable orders={sortedOrders} />);
+        expect(asFragment()).toMatchSnapshot();
+    });
+});
+
+describe('OrderDetailRow', () => {
+
+    it('it receives order keys as properties and renders them as a table row', () => {
+        const { asFragment } = render(<OrderDetailRow
+            name="order_name"
+            destination="901 Brindaban 2A, Poonam Nagar, Andheri (E), Mumbai, 400093"
+            orderStatus="Cooking"
+            key="#932abc"/> );
+        expect(asFragment()).toMatchSnapshot()
+    });
+})
