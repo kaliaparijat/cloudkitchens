@@ -5,7 +5,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export const SimpleOrderTable = (props) => {
   const classes = useStyles();
-  return (<Paper>
+  return (
     <Table className={classes.table}>
       <TableHead>
         <TableRow>
@@ -43,6 +42,5 @@ export const SimpleOrderTable = (props) => {
         ))}
       </TableBody>
     </Table>
-  </Paper>
   )
 };

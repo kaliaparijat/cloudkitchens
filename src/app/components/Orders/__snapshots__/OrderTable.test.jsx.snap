@@ -1,21 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OrderDetailRow it receives order keys as properties and renders them as a table row 1`] = `
-<DocumentFragment>
-  <tr>
-    <td>
-      order_name
-    </td>
-    <td>
-      901 Brindaban 2A, Poonam Nagar, Andheri (E), Mumbai, 400093
-    </td>
-    <td>
-      Cooking
-    </td>
-  </tr>
-</DocumentFragment>
-`;
-
 exports[`SimpleOrderTable it receives an array of orders as a prop and renders them as a table 1`] = `
 <DocumentFragment>
   <div

@@ -1,16 +1,18 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { SearchBar } from './SearchBar';
+import { render, fireEvent } from '@testing-library/react';
+import SearchBar from './SearchBar';
 
 describe('SearchBar',() => {
-    let wrapper;
-    beforeEach(() => {
-        wrapper = shallow(<SearchBar isCooking={true} isHistorical={false} searchText={''}/>);
-        console.log(wrapper);
-    });
+  let searchBar;
 
-    it ('renders correctly with the isCooking radio button selected, searchText empty', () => {
-       expect(1).toEqual(1);
-    });
+  beforeAll(() => {
+    searchBar = render(<SearchBar searchText="33" isHistorical={false} isCooking={false} searchByCriteria={jest.fn()} />)
+  });
+
+  it('should render with prop values', () => {
+    const { asFragment } = searchBar;
+    expect(asFragment()).toMatchSnapshot();
+  });
+
 });
 

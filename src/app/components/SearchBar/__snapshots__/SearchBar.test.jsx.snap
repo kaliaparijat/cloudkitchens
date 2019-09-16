@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBar should render with prop values 1`] = `
+<DocumentFragment>
+  <form
+    class="searchBar"
+  >
+    <label
+      for="cooked"
+    >
+      Get all cooked orders in past 
+      <input
+        name="cooked"
+        type="text"
+        value="33"
+      />
+       seconds
+    </label>
+    <p>
+      <input
+        name="filter"
+        type="radio"
+        value="cooking"
+      />
+      <label
+        for="cooking"
+        name="cooking-label"
+      >
+        Cooking now!
+      </label>
+      <input
+        name="filter"
+        type="radio"
+        value="historical"
+      />
+      <label
+        for="historical"
+        name="historical-label"
+      >
+        All orders
+      </label>
+    </p>
+  </form>
+</DocumentFragment>
+`;

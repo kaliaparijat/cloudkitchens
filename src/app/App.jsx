@@ -1,17 +1,33 @@
 import React from 'react';
-import './App.css';
-import OrderTable from './components/Orders/OrderTable';
-import SearchBar from './components/SearchBar/SearchBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from "@material-ui/core";
 import openSocket from 'socket.io-client';
+import { SimpleOrderTable } from './components/Orders/OrderTable';
+import SearchBar from './components/SearchBar/SearchBar';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    width: '100%',
+    overflowX: 'auto',
+    marginBottom: theme.spacing(2),
+  },
+}));
 class App extends React.Component {
 
   constructor(props) {
       super(props);
       this.state = {
           searchText: '',
-          isCooking: true,
-          isHistorical: true,
-          orderMap: {},
+          isCooking: false,
+          isHistorical: false,
+          orders: {},
       };
   }
 
@@ -24,26 +40,39 @@ class App extends React.Component {
   }
 
   handleNewReceivedOrders(newOrders) {
-      const orderLog = this.state.orderMap;
-     // const newOrderIds = [];
-      // orders are a sorted array, sent by second
+      const orderMap = this.state.orders;
       newOrders.forEach((order) => {
-         orderLog[order.id] = orderLog[order.id] || [];
-         orderLog[order.id].push(order);
+        orderMap[order.id] = order
       });
-
-      const currentOrders = newOrders.concat(retainedOrders);
       this.setState({
-          orders: currentOrders,
-          orderMap: orderLog
+          orders: orderMap
       });
   }
 
-  handleIsCooking = (value) => {
-      this.setState({
-          isCooking: value,
+  updateSearchCriteria = (event) => {
+    if (event.target.value === 'cooking') {
+      return this.setState({
+        isCooking: !this.state.isCooking,
+        isHistorical: false,
+        searchText: '',
       });
+    }
+
+    if (event.target.value === 'historical') {
+      return this.setState({
+        isHistorical: !this.state.isHistorical,
+        searchText: '',
+        isCooking: false,
+      })
+    }
+
+    this.setState({
+      isHistorical: false,
+      searchText: '',
+      isCooking: false,
+    });
   }
+
 
   applyFilterCriteria(order) {
       const {isHistorical, isCooking, searchText} = this.props;
@@ -56,34 +85,33 @@ class App extends React.Component {
       return this.inactiveStates.indexOf(order.event_name) < 0;
   }
 
-  getOrdersToDisplay = () => {
-      const { orderMap, isHistorical, isCooking, searchText } = this.state;
-      const isDefault = !isHistorical && !isCooking && searchText === '';
-      let ordersToDisplay = [];
-      if (isDefault) {
-          Object.values(orderMap).forEach((order) => {
-              if (Array.isArray(order)) {
-                  const latestStateOfOrder = order[order.length - 1];
-                  ordersToDisplay.push(latestStateOfOrder);
-              }
-          });
-      }
-      return ordersToDisplay;
+  getDisplayOrders = () => {
+      const { orders, isHistorical, isCooking, searchText } = this.state;
+      return Object.values(orders).filter((order) => {
+        if (isCooking) {
+          return order.event_name === 'CREATED';
+        }
+        if (isHistorical) {
+          return order.event_name === 'CANCELLED' || order.event_name === 'DELIVERED';
+        }
+        return order.event_name !== 'CANCELLED' && order.event_name !== 'DELIVERED';
+      });
   }
 
   render() {
       const { searchText, isCooking, isHistorical, orderMap } = this.state;
-      const displayOrders = this.getOrdersToDisplay();
+      const displayOrders = this.getDisplayOrders();
       return (
-          <div className="App">
-              <SearchBar searchText={searchText}
-                         isHistorical={isHistorical}
-                         isCooking={isCooking}
-                         onCookingChange={this.handleIsCooking}
-              />
-              <OrderTable orders={displayOrders}
-              />
-          </div>
+        <Container maxWidth="lg">
+          <Paper>
+            <SearchBar searchText={searchText}
+                       isHistorical={isHistorical}
+                       isCooking={isCooking}
+                       searchByCriteria={this.updateSearchCriteria}
+            />
+            <SimpleOrderTable orders={displayOrders}/>
+          </Paper>
+        </Container>
       );
   }
 }
