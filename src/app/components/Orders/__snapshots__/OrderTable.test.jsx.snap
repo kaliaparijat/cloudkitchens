@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OrderDetailRow it receives order keys as properties and renders them as a table row 1`] = `
+<DocumentFragment>
+  <tr>
+    <td>
+      order_name
+    </td>
+    <td>
+      901 Brindaban 2A, Poonam Nagar, Andheri (E), Mumbai, 400093
+    </td>
+    <td>
+      Cooking
+    </td>
+  </tr>
+</DocumentFragment>
+`;
+
+exports[`SimpleOrderTable it receives an array of orders as a prop and renders them as a table 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+  >
+    <table
+      class="MuiTable-root makeStyles-table-3"
+    >
+      <thead
+        class="MuiTableHead-root"
+      >
+        <tr
+          class="MuiTableRow-root MuiTableRow-head"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-head"
+            scope="col"
+          >
+             Order For
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-head"
+            scope="col"
+          >
+            Current status
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-head"
+            scope="col"
+          >
+            Order name
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="MuiTableBody-root"
+      >
+        <tr
+          class="MuiTableRow-root"
+        >
+          <td
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+          >
+            Cheese pizza
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+          >
+            801 Toyopa Dr, Pacific Palisades, CA 90272
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+          >
+            CREATED
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root"
+        >
+          <td
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+          >
+            Cheese pizza
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+          >
+            801 Toyopa Dr, Pacific Palisades, CA 90272
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+          >
+            CANCELLED
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root"
+        >
+          <td
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+          >
+            Cheese pizza
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+          >
+            801 Toyopa Dr, Pacific Palisades, CA 90272
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+          >
+            DELIVERED
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;

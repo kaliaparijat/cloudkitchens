@@ -1,95 +1,48 @@
-import './OrderTable.css';
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
-/*
-class OrderTable extends React.Component {
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    width: '100%',
+    overflowX: 'auto',
+    marginBottom: theme.spacing(2),
+  },
+  table: {
+    minWidth: 650,
+  },
+}));
 
-    inactiveStates = ['DELIVERED', 'CANCELLED'];
-
-    componentDidMount() {
-        const { orderMap } = this.props;
-        const allOrders = Object.values(orderMap);
-        this.displayOrders = allOrders.forEach((order) => {
-
-        })
-    }
-
-    getOrdersToDisplay() {
-        const { orderMap } = this.props;
-        const orders = Object.values(orderMap);
-        orders.forEach((order) => {
-
-        })
-        orders.sort((a, b) => {
-            return b.sent_at_second - a.sent_at_second;
-        });
-        return orders;
-    }
-
-    render() {
-       const displayOrders = this.getOrdersToDisplay();
-        return (
-            <table>
-                <thead>
-                <tr>
-                    <th>Order for</th>
-                    <th>Current status</th>
-                    <th>Order name</th>
-                </tr>
-                </thead>
-                <tbody>
-                {
-                    displayOrders.map((order) => {
-                        if (this.applyFilterCriteria(order)) {
-                            return <OrderDetailRow
-                                key={order.id}
-                                name={order.name}
-                                destination={order.destination}
-                                orderStatus={order.event_name}
-                            />
-                        }
-                        else {
-                            return;
-                        }
-                    })
-                }
-                </tbody>
-            </table>
-        )
-    }
-}*/
-
-export const SimpleOrderTable = (props) =>(
-    <table>
-        <thead>
-        <tr>
-            <th>Order for</th>
-            <th>Current status</th>
-            <th>Order name</th>
-        </tr>
-        </thead>
-        <tbody>
+export const SimpleOrderTable = (props) => {
+  const classes = useStyles();
+  return (<Paper>
+    <Table className={classes.table}>
+      <TableHead>
+        <TableRow>
+          <TableCell align="left"> Order For</TableCell>
+          <TableCell align="left">Current status</TableCell>
+          <TableCell align="left">Order name</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
         {props.orders.map((order) => (
-            <OrderDetailRow
-                key={order.id}
-                name={order.name}
-                destination={order.destination}
-                orderStatus={order.event_name}
-            />
+          <TableRow key={order.id}>
+            <TableCell align="left">{order.name}</TableCell>
+            <TableCell align="left">{order.destination}</TableCell>
+            <TableCell align="left">{order.event_name}</TableCell>
+          </TableRow>
         ))}
-        </tbody>
-    </table>
-);
-
-
-export const OrderDetailRow = (props) => {
-    const { name, destination, orderStatus } = props;
-    return (
-        <tr>
-            <td>{name}</td>
-            <td>{destination}</td>
-            <td>{orderStatus}</td>
-        </tr>
-    )
+      </TableBody>
+    </Table>
+  </Paper>
+  )
 };
-
