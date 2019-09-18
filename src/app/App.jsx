@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from "@material-ui/core";
-import openSocket from 'socket.io-client';
+import socketConnection from 'socket.io-client';
 import { SimpleOrderTable } from './components/Orders/OrderTable';
 import SearchBar from './components/SearchBar/SearchBar';
 
@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2),
   },
 }));
+
 class App extends React.Component {
 
   constructor(props) {
@@ -32,7 +33,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-      const socket = openSocket('http://localhost:8080');
+      const socket = socketConnection('http://localhost:8080');
       socket.emit('ready', "client ready");
       socket.on('ready', (newOrders) => {
           this.handleNewReceivedOrders(newOrders);
@@ -63,9 +64,18 @@ class App extends React.Component {
         isHistorical: !this.state.isHistorical,
         searchText: '',
         isCooking: false,
-      })
+      });
     }
 
+    if (event.target.name === 'cooked') {
+      return this.setState({
+        isHistorical: false,
+        isCooking: false,
+        searchText: event.target.value,
+      });
+    }
+
+    // default: returns active orders
     this.setState({
       isHistorical: false,
       searchText: '',
@@ -73,21 +83,12 @@ class App extends React.Component {
     });
   }
 
-
-  applyFilterCriteria(order) {
-      const {isHistorical, isCooking, searchText} = this.props;
-      if (isHistorical) {
-          return true;
-      }
-      if (isCooking) {
-          return order.event_name === 'CREATED';
-      }
-      return this.inactiveStates.indexOf(order.event_name) < 0;
-  }
-
   getDisplayOrders = () => {
       const { orders, isHistorical, isCooking, searchText } = this.state;
       return Object.values(orders).filter((order) => {
+        if (searchText !== '') {
+          return order.sent_at_second < parseInt(searchText);
+        }
         if (isCooking) {
           return order.event_name === 'CREATED';
         }
@@ -99,10 +100,10 @@ class App extends React.Component {
   }
 
   render() {
-      const { searchText, isCooking, isHistorical, orderMap } = this.state;
+      const { searchText, isCooking, isHistorical } = this.state;
       const displayOrders = this.getDisplayOrders();
       return (
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" >
           <Paper>
             <SearchBar searchText={searchText}
                        isHistorical={isHistorical}

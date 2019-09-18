@@ -1,22 +1,37 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 
+const useStyles = makeStyles(theme => ({
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+}));
+
 const SearchBar = (props) => {
+  const classes = useStyles();
   return (
     <form className="searchBar">
-      <label htmlFor="cooked">Get all cooked orders in past <input
+      <label htmlFor="cooked">Get all cooked orders in past</label>
+      <TextField
         type="text"
         name="cooked"
-        defaultValue={props.searchText}
-      /> seconds</label>
+        value={props.searchText}
+        placeholder="seconds"
+        className={classes.textField}
+        margin="normal"
+        onChange={props.searchByCriteria}
+      />
       <p>
         <Radio
           name="filter"
           value="active"
           onChange={props.searchByCriteria}
-          checked={!props.isCooking && !props.isHistorical}
-          defaultChecked
+          checked={!props.isCooking && !props.isHistorical && props.searchText === ''}
         />
         <label htmlFor="active"
                name="activeOrders-label"
