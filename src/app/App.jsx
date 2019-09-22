@@ -20,34 +20,39 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+export const isActiveOrder = (eventName) => {
+  const activeOrderStates = ['CREATED', 'COOKED', 'DRIVER_RECEIVED'];
+  return activeOrderStates.indexOf(eventName) > -1;
+}
+
 class App extends React.Component {
 
   constructor(props) {
-      super(props);
-      this.state = {
-          searchText: '',
-          isCooking: false,
-          isHistorical: false,
-          orders: {},
-      };
+    super(props);
+    this.state = {
+      searchText: '',
+      isCooking: false,
+      isHistorical: false,
+      orders: {},
+    };
   }
 
   async componentDidMount() {
-      const socket = socketConnection('http://localhost:8080');
-      socket.emit('ready', "client ready");
-      socket.on('ready', (newOrders) => {
-          this.handleNewReceivedOrders(newOrders);
-      });
+    const socket = socketConnection('http://localhost:8080');
+    socket.emit('ready', "client ready");
+    socket.on('ready', (newOrders) => {
+      this.handleNewReceivedOrders(newOrders);
+    });
   }
 
   handleNewReceivedOrders(newOrders) {
-      const orderMap = this.state.orders;
-      newOrders.forEach((order) => {
-        orderMap[order.id] = order
-      });
-      this.setState({
-          orders: orderMap
-      });
+    const orderMap = this.state.orders;
+    newOrders.forEach((order) => {
+      orderMap[order.id] = order
+    });
+    this.setState({
+      orders: orderMap
+    });
   }
 
   updateSearchCriteria = (event) => {
@@ -84,26 +89,27 @@ class App extends React.Component {
   }
 
   getDisplayOrders = () => {
-      const { orders, isHistorical, isCooking, searchText } = this.state;
-      return Object.values(orders).filter((order) => {
-        if (searchText !== '') {
-          return order.sent_at_second < parseInt(searchText);
-        }
-        if (isCooking) {
-          return order.event_name === 'CREATED';
-        }
-        if (isHistorical) {
-          return order.event_name === 'CANCELLED' || order.event_name === 'DELIVERED';
-        }
-        return order.event_name !== 'CANCELLED' && order.event_name !== 'DELIVERED';
-      });
+    const {orders, isHistorical, isCooking, searchText} = this.state;
+    return Object.values(orders).filter((order) => {
+      if (searchText !== '') {
+        return order.sent_at_second < parseInt(searchText);
+      }
+      if (isCooking) {
+        return order.event_name === 'CREATED';
+      }
+      if (isHistorical) {
+        return order.event_name === 'CANCELLED' || order.event_name === 'DELIVERED';
+      }
+      return isActiveOrder(order.event_name);
+    });
   }
 
   render() {
-      const { searchText, isCooking, isHistorical } = this.state;
-      const displayOrders = this.getDisplayOrders();
+    const {searchText, isCooking, isHistorical} = this.state;
+    const displayOrders = this.getDisplayOrders();
+    {
       return (
-        <Container maxWidth="lg" >
+        <Container maxWidth="lg">
           <Paper>
             <SearchBar searchText={searchText}
                        isHistorical={isHistorical}
@@ -114,6 +120,7 @@ class App extends React.Component {
           </Paper>
         </Container>
       );
+    }
   }
 }
 

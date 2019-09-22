@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './app';
+import App, { isActiveOrder } from './app';
 import { render } from '@testing-library/react';
 import { SimpleOrderTable } from "./components/Orders/OrderTable";
 
@@ -52,16 +52,23 @@ const mockData = [
 jest.mock('socket.io-client', () => () => ({
   emit: jest.fn(),
   on: (serverMessage, callback) => {
-    return mockData;
+    return callback(mockData);
   }
 }));
-
 
 describe('<App />', () => {
 
   it ('should render only active orders from the set of orders it received ', () => {
-    const { asFragment } = render(<App />);
-    expect(asFragment()).toMatchSnapshot();
+    const { getByTestId, getByText} = render(<App />);
+    // retrieve table rows using data-testid
+
+    const activeOrders = mockData.filter((mockOrder) => isActiveOrder(mockOrder));
+
+    const renderedOrders = [];
+    activeOrders.forEach((activeOrder) => {
+      renderedOrders.push(getByTestId(activeOrder.id))
+    });
+    expect(renderedOrders.length).toEqual(activeOrders.length);
   });
 
   it ('should render all past orders when the user selects "Get all cooked orders in the past"', () => {
