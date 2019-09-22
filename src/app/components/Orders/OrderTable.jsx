@@ -34,7 +34,7 @@ export const SimpleOrderTable = (props) => {
       </TableHead>
       <TableBody>
         {props.orders.map((order) => (
-          <TableRow key={order.id}>
+          <TableRow key={order.id} data-testid={order.id}>
             <TableCell align="left">{order.name}</TableCell>
             <TableCell align="left">{order.destination}</TableCell>
             <TableCell align="left">{order.event_name}</TableCell>
