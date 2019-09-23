@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { ReactDOM } from 'react-dom';
 import App, { isActiveOrder } from './app';
 import { render, fireEvent } from '@testing-library/react';
 import { SimpleOrderTable } from "./components/Orders/OrderTable";
@@ -70,4 +70,12 @@ describe('<App />', () => {
     expect(renderedOrders.length).toEqual(activeOrders.length);
   });
 
+  it ('should fire an event', () => {
+    const { getByLabelText, getByText, asFragment} = render(<App />);
+
+    fireEvent.change(getByLabelText('All past orders'), { target: { checked: true}});
+    console.log(asFragment());
+    expect(1).toEqual(2);
+
+  });
 });

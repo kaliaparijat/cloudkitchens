@@ -58,9 +58,9 @@ const SearchBar = (props) => {
           name="filter"
           value="historical"
           id="historical-filter"
+          data-testid="historical-filter"
           checked={props.isHistorical}
           onChange={props.searchByCriteria}
-          data-testid="filterHistorical"
         />
         All past orders
       </label>
