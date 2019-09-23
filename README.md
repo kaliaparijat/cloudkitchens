@@ -1,78 +1,29 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+##Assumptions
+The app assumes you have a local web server setup. If not, please add the following line to your /etc/hosts file 
+`127.0.0.1 localhost`
 
-In the project directory, you can run:
+If you do not have npm, please install npm : https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-### TODO: 
-- Display historical orders?
-- Display orders in the past few seconds (wtf)?
-- Add tests for main app component (30 minutes)
-- Search by historical orders (30 mts)
-- Search by cooking only (15 mts)
-- Search by past few seconds (15 mts)]
+The app assumes port 3000 (for the client) and port 8080 (for the node server) area available for it. 
+Please ensure that no other processes are running on your localmachine on these ports. 
 
 
+## Setting up the app.
+1. Unzip the zipped file (cloudkitchens) into a directory of your choice 
+2. From inside the unzipped folder, run `npm install`. This will install the dependencies the app requires
+3. Now start the app, `npm start`. 
+4. To run the test suite, run the command `npm test`. 
+
+##Libraries used and the reasoning behind their selection
+1. React starter kit: https://reactjs.org/community/starter-kits.html
+   Strongly recommended by the React team, easy to kickstart development and comes bundled with necessary packages. 
+2. Material-UI for react, to create the UI look & feel: https://material-ui.com/
+   I like material design, and wanted to use this as an opportunity to learn a bit more about it. It's also a widely used
+   React library, so support would be available. 
+3. ExpressJS for setting up a minimal node web server: https://expressjs.com/
+   Bare bones Node server, I chose it because of familiarity and ease of use.  
+4. Socket.io for setting up a server and client socket connection: https://socket.io/
+   Recommended by your team. 
+5. React testing library for creating Unit tests: https://github.com/testing-library/react-testing-library
+   I like the guiding principle of react-testing-library to build tests as how the user would experience the application.

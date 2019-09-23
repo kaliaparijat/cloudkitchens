@@ -1,6 +1,8 @@
 import React from 'react';
+import AppBar from '@material-ui/core/AppBar';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 
@@ -15,53 +17,55 @@ const useStyles = makeStyles(theme => ({
 const SearchBar = (props) => {
   const classes = useStyles();
   return (
-    <form className="searchBar">
-      <label htmlFor="cooked">Get all cooked orders in past</label>
-      <TextField
-        type="text"
-        name="cooked"
-        value={props.searchText}
-        placeholder="seconds"
-        className={classes.textField}
-        margin="normal"
-        onChange={props.searchByCriteria}
-      />
-      <p>
+    <div>
+        <TextField
+          error={isNaN(props.searchText)}
+          type="text"
+          name="cooked"
+          value={props.searchText}
+          placeholder="seconds"
+          className={classes.textField}
+          margin="normal"
+          onChange={props.searchByCriteria}
+          helperText="cooked in the past few seconds"
+        />
+      <div>
+      <label htmlFor="active-filter"
+      >
         <Radio
           name="filter"
+          id="active-filter"
           value="active"
           onChange={props.searchByCriteria}
           checked={!props.isCooking && !props.isHistorical && props.searchText === ''}
         />
-        <label htmlFor="active"
-               name="activeOrders-label"
-        >
-          Active orders
-        </label>
+        Active orders
+      </label>
+      <label htmlFor="cooking-filter"
+      >
         <Radio
           name="filter"
           value="cooking"
+          id="cooking-filter"
           checked={props.isCooking}
           onChange={props.searchByCriteria}
         />
-        <label htmlFor="cooking"
-               name="cooking-label"
-        >
-          Cooking now
-        </label>
+        Cooking now
+      </label>
+      <label htmlFor="historical-filter"
+      >
         <Radio
           name="filter"
           value="historical"
+          id="historical-filter"
           checked={props.isHistorical}
           onChange={props.searchByCriteria}
+          data-testid="filterHistorical"
         />
-        <label htmlFor="historical"
-               name="historical-label"
-        >
-          All past orders
-        </label>
-      </p>
-    </form>
+        All past orders
+      </label>
+      </div>
+    </div>
   )
 };
 

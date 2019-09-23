@@ -3,38 +3,37 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from "@material-ui/core";
+import { withStyles, them } from "@material-ui/core";
 import socketConnection from 'socket.io-client';
 import { SimpleOrderTable } from './components/Orders/OrderTable';
 import SearchBar from './components/SearchBar/SearchBar';
+import './App.css';
 
-const useStyles = makeStyles(theme => ({
+const styles = {
   root: {
     width: '100%',
   },
   paper: {
-    marginTop: theme.spacing(3),
-    width: '100%',
+    marginTop: '4rem',
+    width: '20%',
     overflowX: 'auto',
-    marginBottom: theme.spacing(2),
+    marginBottom: '2rem',
   },
-}));
+};
 
 export const isActiveOrder = (eventName) => {
   const activeOrderStates = ['CREATED', 'COOKED', 'DRIVER_RECEIVED'];
   return activeOrderStates.indexOf(eventName) > -1;
 }
 
+
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchText: '',
-      isCooking: false,
-      isHistorical: false,
-      orders: {},
-    };
+  state = {
+    searchText: '',
+    isCooking: false,
+    isHistorical: false,
+    orders: {},
   }
 
   async componentDidMount() {
@@ -105,22 +104,20 @@ class App extends React.Component {
   }
 
   render() {
-    const {searchText, isCooking, isHistorical} = this.state;
+    const { searchText, isCooking, isHistorical, classes } = this.state;
     const displayOrders = this.getDisplayOrders();
-    {
-      return (
-        <Container maxWidth="lg">
-          <Paper>
-            <SearchBar searchText={searchText}
-                       isHistorical={isHistorical}
-                       isCooking={isCooking}
-                       searchByCriteria={this.updateSearchCriteria}
-            />
-            <SimpleOrderTable orders={displayOrders}/>
-          </Paper>
-        </Container>
-      );
-    }
+    return  (
+      <Container maxWidth="lg" className="app">
+        <Paper className="paper">
+          <SearchBar searchText={searchText}
+                     isHistorical={isHistorical}
+                     isCooking={isCooking}
+                     searchByCriteria={this.updateSearchCriteria}
+          />
+          <SimpleOrderTable orders={displayOrders} handleOrderUpdate={this.updateOrder}/>
+        </Paper>
+      </Container>
+    )
   }
 }
 
