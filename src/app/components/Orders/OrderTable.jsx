@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import capitalize from 'lodash.capitalize';
 import { makeStyles } from '@material-ui/core/styles';
-import EditIcon from '@material-ui/icons/Edit';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -39,17 +38,17 @@ export const SimpleOrderTable = (props) => {
 
   const handleChange = (event) => {
     const { handleOrderUpdate } = props;
-    props.handleOrderUpdate(event.target.name, event.target.value);
+    handleOrderUpdate(event.target.name, event.target.value);
   }
 
   return (
     <Table className={classes.table}>
       <TableHead>
         <TableRow>
-          <TableCell align="left"> Order For</TableCell>
-          <TableCell align="left">Current status</TableCell>
-          <TableCell align="left">Order name</TableCell>
-          <TableCell align="right">Change order status</TableCell>
+          <TableCell align="left">Food item</TableCell>
+          <TableCell align="left">Order location</TableCell>
+          <TableCell align="left">Status</TableCell>
+          <TableCell align="right">Update order status</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>

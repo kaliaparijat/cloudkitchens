@@ -1,9 +1,12 @@
 import React from 'react';
-import { ReactDOM } from 'react-dom';
 import App, { isActiveOrder } from './app';
 import { render, fireEvent } from '@testing-library/react';
-import { SimpleOrderTable } from "./components/Orders/OrderTable";
+import { mount } from 'enzyme';
 
+
+const application = {
+  applicationType: '',
+};
 const mockData = [
   {
     "destination": "801 Toyopa Dr, Pacific Palisades, CA 90272",
@@ -61,7 +64,6 @@ describe('<App />', () => {
 
   it ('should render only active orders from the set of orders it received ', () => {
     const { getByTestId, getByText} = render(<App />);
-    // retrieve table rows using data-testid
 
     const renderedOrders = [];
     activeOrders.forEach((activeOrder) => {
@@ -71,11 +73,10 @@ describe('<App />', () => {
   });
 
   it ('should fire an event', () => {
-    const { getByLabelText, getByText, asFragment} = render(<App />);
+    const app = mount(<App />);
+    const radio = app.find('input[id="historical-filter"]');
+    radio.simulate('click');
 
-    fireEvent.change(getByLabelText('All past orders'), { target: { checked: true}});
-    console.log(asFragment());
     expect(1).toEqual(2);
-
   });
 });

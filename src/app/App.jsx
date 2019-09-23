@@ -1,34 +1,17 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
-import { withStyles, them } from "@material-ui/core";
 import socketConnection from 'socket.io-client';
 import { SimpleOrderTable } from './components/Orders/OrderTable';
 import SearchBar from './components/SearchBar/SearchBar';
 import './App.css';
-
-const styles = {
-  root: {
-    width: '100%',
-  },
-  paper: {
-    marginTop: '4rem',
-    width: '20%',
-    overflowX: 'auto',
-    marginBottom: '2rem',
-  },
-};
 
 export const isActiveOrder = (eventName) => {
   const activeOrderStates = ['CREATED', 'COOKED', 'DRIVER_RECEIVED'];
   return activeOrderStates.indexOf(eventName) > -1;
 }
 
-
 class App extends React.Component {
-
   state = {
     searchText: '',
     isCooking: false,
@@ -88,7 +71,7 @@ class App extends React.Component {
   }
 
   getDisplayOrders = () => {
-    const {orders, isHistorical, isCooking, searchText} = this.state;
+    const { orders, isHistorical, isCooking, searchText } = this.state;
     return Object.values(orders).filter((order) => {
       if (searchText !== '') {
         return order.sent_at_second < parseInt(searchText);
@@ -104,7 +87,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { searchText, isCooking, isHistorical, classes } = this.state;
+    const { searchText, isCooking, isHistorical } = this.state;
     const displayOrders = this.getDisplayOrders();
     return  (
       <Container maxWidth="lg" className="app">
@@ -114,7 +97,7 @@ class App extends React.Component {
                      isCooking={isCooking}
                      searchByCriteria={this.updateSearchCriteria}
           />
-          <SimpleOrderTable orders={displayOrders} handleOrderUpdate={this.updateOrder}/>
+          <SimpleOrderTable orders={displayOrders}/>
         </Paper>
       </Container>
     )
