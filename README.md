@@ -1,12 +1,23 @@
 
 ##Assumptions
-The app assumes you have a local web server setup. If not, please add the following line to your /etc/hosts file 
+The app assumes a local web server is setup your machine. If not, please add the following line to your /etc/hosts file 
 `127.0.0.1 localhost`
 
-If you do not have npm, please install npm : https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+The app requires npm, f you do not have npm, please install npm : https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 The app assumes port 3000 (for the client) and port 8080 (for the node server) area available for it. 
-Please ensure that no other processes are running on your localmachine on these ports. 
+
+Please ensure that no other processes are running on your machine on these ports. 
+
+##Design assumptions
+Historical orders orders that have reached a 'DELIVERED' or 'CANCELLED' state. Orders in other states are assumed to be in process and hence, 
+not a order in the past. 
+
+#Test assumptions
+The tests for main app have been created, as it renders the search bar and the tables and tests the app behavior as a user would use the app.
+For the sub-components, snapshot tests are sufficient. Some tests are prone to false positives if the mockData is modified. These could be made
+a bit more robust. 
+
 
 
 ## Setting up the app.
@@ -26,4 +37,4 @@ Please ensure that no other processes are running on your localmachine on these 
 4. Socket.io for setting up a server and client socket connection: https://socket.io/
    Recommended by your team. 
 5. React testing library for creating Unit tests: https://github.com/testing-library/react-testing-library
-   I like the guiding principle of react-testing-library to build tests as how the user would experience the application.
+   and Enzyme: https://airbnb.io/enzyme/ 

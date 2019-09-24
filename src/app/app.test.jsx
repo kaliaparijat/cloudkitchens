@@ -27,7 +27,7 @@ const mockData = [
     "event_name": "COOKED",
     "id": "e765bcfd",
     "name": "Vegan burger",
-    "sent_at_second": 4
+    "sent_at_second": 3
   },
   {
     "destination": "139 E 66th St, Los Angeles, CA 90003",
@@ -59,24 +59,61 @@ jest.mock('socket.io-client', () => () => ({
   }
 }));
 
-describe('<App />', () => {
-  const activeOrders = mockData.filter((mockOrder) => isActiveOrder(mockOrder));
+const isHistorical = order => order.event_name === 'CANCELLED' || order.event_name === 'DELIVERED';
+const isCooked = (order, searchText) => order.sent_at_second < parseInt(searchText) && order.event_name === 'COOKED';
 
-  it ('should render only active orders from the set of orders it received ', () => {
+describe('<App />', () => {
+
+  it ('should render only active orders from the set of orders it received as default', () => {
     const { getByTestId, getByText} = render(<App />);
 
     const renderedOrders = [];
+    const activeOrders = mockData.filter((mockOrder) => isActiveOrder(mockOrder));
+
     activeOrders.forEach((activeOrder) => {
       renderedOrders.push(getByTestId(activeOrder.id))
     });
     expect(renderedOrders.length).toEqual(activeOrders.length);
   });
 
-  it ('should fire an event', () => {
+  it ('should render  processed orders (delivered or cancelled) when the user filters the display by selecting the radio button next to "All past orders"', () => {
     const app = mount(<App />);
     const radio = app.find('input[id="historical-filter"]');
-    radio.simulate('click');
+    radio.simulate('change', { target: {name: 'filter', value:'historical', checked: 'true'}});
 
-    expect(1).toEqual(2);
+    const expectedOrderIds = mockData.filter((mockOrder) => isHistorical(mockOrder)).map(mockOrder => mockOrder.id);
+
+    const renderedOrderIds = [];
+    // find the data-testid of the rows that were rendered
+    app.find('tbody tr').forEach(row => {
+      renderedOrderIds.push(row.get(0).props['data-testid']);
+    });
+    // these should match with the expectedOrders, implying only historical orders were rendered
+    expect(renderedOrderIds).toEqual(expectedOrderIds);
+  });
+
+  it ('should render orders that are currently in a "CREATED" state when the user filters the list by "Cooking now"', () => {
+    const app = mount(<App />);
+    const radio = app.find('input[id="cooking-filter"]');
+
+    radio.simulate('change', { target: { name: 'filter', value:'cooking', checked: 'true'}});
+    const expectedOrderIds = mockData.filter((mockOrder) => mockOrder.event_name === 'CREATED').map(mockOrder => mockOrder.id);
+    const renderedOrderIds = []
+    app.find('tbody tr').forEach(row => {
+      renderedOrderIds.push(row.get(0).props['data-testid']);
+    });
+    expect(renderedOrderIds).toEqual(expectedOrderIds);
+  });
+
+  it ('should display orders that have been cooked (entered the COOKED state) in the last X seconds, when the user manually enters X', () => {
+    const app = mount(<App />);
+    const search = app.find('input[name="cooked"]');
+    search.simulate('change', { target: { name: 'cooked', value: '4' }});
+    const expectedOrderIds = mockData.filter((mockOrder) => isCooked(mockOrder, '4')).map(mockOrder => mockOrder.id);
+    const renderedOrderIds = []
+    app.find('tbody tr').forEach(row => {
+      renderedOrderIds.push(row.get(0).props['data-testid']);
+    });
+    expect(renderedOrderIds).toEqual(expectedOrderIds);
   });
 });

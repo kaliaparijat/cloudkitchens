@@ -1,4 +1,4 @@
-]// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SimpleOrderTable it receives an array of orders as a prop and renders them as a table 1`] = `
 <DocumentFragment>
@@ -15,25 +15,19 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-head"
           scope="col"
         >
-           Order For
+          Food item
         </th>
         <th
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-head"
           scope="col"
         >
-          Current status
+          Order location
         </th>
         <th
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-head"
           scope="col"
         >
-          Order name
-        </th>
-        <th
-          class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-head"
-          scope="col"
-        >
-          Change order status
+          Status
         </th>
       </tr>
     </thead>
@@ -59,16 +53,6 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
         >
           Created
         </td>
-        <td
-          class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-body"
-        >
-          <button
-            class="makeStyles-button-4"
-            value="4b76edxf"
-          >
-            Edit
-          </button>
-        </td>
       </tr>
       <tr
         class="MuiTableRow-root"
@@ -89,16 +73,6 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
         >
           Cancelled
         </td>
-        <td
-          class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-body"
-        >
-          <button
-            class="makeStyles-button-4"
-            value="4b76edzf"
-          >
-            Edit
-          </button>
-        </td>
       </tr>
       <tr
         class="MuiTableRow-root"
@@ -118,16 +92,6 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
         >
           Delivered
-        </td>
-        <td
-          class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-body"
-        >
-          <button
-            class="makeStyles-button-4"
-            value="4b76edbf"
-          >
-            Edit
-          </button>
         </td>
       </tr>
     </tbody>

@@ -12,6 +12,7 @@ export const isActiveOrder = (eventName) => {
 }
 
 class App extends React.Component {
+
   state = {
     searchText: '',
     isCooking: false,
@@ -23,7 +24,7 @@ class App extends React.Component {
     const socket = socketConnection('http://localhost:8080');
     socket.emit('ready', "client ready");
     socket.on('ready', (newOrders) => {
-      this.handleNewReceivedOrders(newOrders);
+       this.handleNewReceivedOrders(newOrders);
     });
   }
 
@@ -70,11 +71,12 @@ class App extends React.Component {
     });
   }
 
+
   getDisplayOrders = () => {
     const { orders, isHistorical, isCooking, searchText } = this.state;
     return Object.values(orders).filter((order) => {
       if (searchText !== '') {
-        return order.sent_at_second < parseInt(searchText);
+        return order.sent_at_second < parseInt(searchText) && order.event_name === 'COOKED';
       }
       if (isCooking) {
         return order.event_name === 'CREATED';
