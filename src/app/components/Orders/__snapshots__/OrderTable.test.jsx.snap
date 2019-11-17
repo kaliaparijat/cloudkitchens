@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SimpleOrderTable it receives an array of orders as a prop and renders them as a table 1`] = `
+exports[`SimpleOrderTable with no editingOrderId prop it receives an array of orders as a prop and renders them as a table 1`] = `
 <DocumentFragment>
   <table
     class="MuiTable-root makeStyles-table-3"
@@ -11,6 +11,12 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
       <tr
         class="MuiTableRow-root MuiTableRow-head"
       >
+        <th
+          class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-head"
+          scope="col"
+        >
+          Status
+        </th>
         <th
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-head"
           scope="col"
@@ -27,7 +33,7 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-head"
           scope="col"
         >
-          Status
+          Actions
         </th>
       </tr>
     </thead>
@@ -41,6 +47,11 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
         <td
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
         >
+          Created
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+        >
           Cheese pizza
         </td>
         <td
@@ -51,7 +62,9 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
         <td
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
         >
-          Created
+          <button>
+            Edit
+          </button>
         </td>
       </tr>
       <tr
@@ -61,6 +74,11 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
         <td
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
         >
+          Cancelled
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+        >
           Cheese pizza
         </td>
         <td
@@ -71,7 +89,9 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
         <td
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
         >
-          Cancelled
+          <button>
+            Edit
+          </button>
         </td>
       </tr>
       <tr
@@ -81,6 +101,11 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
         <td
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
         >
+          Delivered
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
+        >
           Cheese pizza
         </td>
         <td
@@ -91,7 +116,9 @@ exports[`SimpleOrderTable it receives an array of orders as a prop and renders t
         <td
           class="MuiTableCell-root MuiTableCell-alignLeft MuiTableCell-body"
         >
-          Delivered
+          <button>
+            Edit
+          </button>
         </td>
       </tr>
     </tbody>

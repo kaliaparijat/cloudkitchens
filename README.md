@@ -3,7 +3,7 @@
 The app assumes a local web server is setup your machine. If not, please add the following line to your /etc/hosts file 
 `127.0.0.1 localhost`
 
-The app requires npm, f you do not have npm, please install npm : https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+The app requires npm, if you do not have npm, please install npm : https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 The app assumes port 3000 (for the client) and port 8080 (for the node server) area available for it. 
 
@@ -24,7 +24,8 @@ a bit more robust.
 1. Unzip the zipped file (cloudkitchens) into a directory of your choice 
 2. From inside the unzipped folder, run `npm install`. This will install the dependencies the app requires
 3. Now start the app, `npm start`. 
-4. To run the test suite, run the command `npm test`. 
+4. To run the test suite, run the command `npm test`. It will have a prompt with some options, ty
+pe 'a' to run all tests. 
 
 ##Libraries used and the reasoning behind their selection
 1. React starter kit: https://reactjs.org/community/starter-kits.html

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import { SimpleOrderTable }  from "./OrderTable";
 
@@ -29,9 +29,52 @@ const sortedOrders = [
 ];
 
 
-describe('SimpleOrderTable', () => {
+describe('SimpleOrderTable with no editingOrderId prop', () => {
+
+    const handleOrderEdit = jest.fn();
+
+    let renderedOrderTable;
+
+    beforeEach(() => {
+        renderedOrderTable = render(<SimpleOrderTable orders={sortedOrders} handleEdit={handleOrderEdit}/>);
+    });
+
     it('it receives an array of orders as a prop and renders them as a table', () => {
-        const { asFragment } = render(<SimpleOrderTable orders={sortedOrders} />);
+        const { asFragment } = renderedOrderTable;
         expect(asFragment()).toMatchSnapshot();
     });
+
+    it('should invoke handleEdit correctly with the right order ID parameter when the user clicks on an Edit button', () => {
+        const { getAllByText, asFragment } = renderedOrderTable;
+        const editButton = getAllByText('Edit')[0];
+        fireEvent.click(editButton);
+        expect(handleOrderEdit).toHaveBeenCalled();
+        expect(handleOrderEdit).toHaveBeenCalledWith('4b76edxf');
+    });
+
+    describe ('SimpleOrderTable with an editingOrderId prop', () => {
+        const handleOrderStatusUpdate = jest.fn();
+        let selectMenu;
+
+        beforeEach(() => {
+           renderedOrderTable = render(
+             <SimpleOrderTable
+             orders={sortedOrders}
+             handleEdit={handleOrderEdit}
+             handleUpdate={handleOrderStatusUpdate}
+             editingOrderId='4b76edxf'/>);
+           const { getByLabelText } = renderedOrderTable;
+           selectMenu = getByLabelText('select-menu-4b76edxf');
+        });
+
+        it('should render a select menu under the status column for the order that has the orderID same as editingOrderId', () => {
+            expect(selectMenu).toBeTruthy();
+        });
+
+
+        it('should invoke handleOrderStatusUpdate when the user udpates the status of a given order', () => {
+            fireEvent.change(selectMenu, { target: { value: 'DRIVER_RECEIVED'}} );
+        });
+    });
+
 });

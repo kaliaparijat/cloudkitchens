@@ -17,8 +17,11 @@ class App extends React.Component {
     searchText: '',
     isCooking: false,
     isHistorical: false,
+    isEditing: false,
     orders: {},
   }
+
+  editingOrderId;
 
   async componentDidMount() {
     const socket = socketConnection('http://localhost:8080');
@@ -26,6 +29,10 @@ class App extends React.Component {
     socket.on('ready', (newOrders) => {
        this.handleNewReceivedOrders(newOrders);
     });
+  }
+
+  shouldComponentUpdate() {
+    return !this.state.isEditing; // prevent updates to the order table if it is currently being edited
   }
 
   handleNewReceivedOrders(newOrders) {
@@ -88,6 +95,20 @@ class App extends React.Component {
     });
   }
 
+  editOrder = (orderId) => {
+
+    this.editingOrderId = orderId;
+    this.setState({ isEditing: !this.state.isEditing });
+    // once the order has been updated, invoke forceUpdate so that the order can be shown to the user
+  }
+
+  handleOrderUpdate = (event, orderId) => {
+   const value = event.currentTarget.value;
+   if (this.state.orders[orderId].event_name) {
+
+   }
+  }
+
   render() {
     const { searchText, isCooking, isHistorical } = this.state;
     const displayOrders = this.getDisplayOrders();
@@ -99,7 +120,11 @@ class App extends React.Component {
                      isCooking={isCooking}
                      searchByCriteria={this.updateSearchCriteria}
           />
-          <SimpleOrderTable orders={displayOrders}/>
+          <SimpleOrderTable
+            orders={displayOrders}
+            handleEdit={this.editOrder}
+            editingOrderId={this.editingOrderId}
+          />
         </Paper>
       </Container>
     )

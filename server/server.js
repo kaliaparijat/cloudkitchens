@@ -15,13 +15,11 @@ const groupOrdersByTimeReceived = (orders) => {
         groupedOrders[o.sent_at_second].push(o);
     });
     return groupedOrders;
-    //const initialOrders = groupedOrders.find(o =>  Array.isArray(o) && o.length !== 0 );
-    //return initialOrders;
 };
 
 const displayOrders = groupOrdersByTimeReceived(OrderData);
 
-app.get('/api/orders', function(request, response) {
+app.get('/api/modify_order/order_id', function(request, response) {
   response.json({'foo': 'bar'});
 });
 
