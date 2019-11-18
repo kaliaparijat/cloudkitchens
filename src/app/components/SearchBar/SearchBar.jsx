@@ -18,13 +18,14 @@ const SearchBar = (props) => {
         <TextField
           error={isNaN(props.searchText)}
           type="text"
-          name="cooked"
+          name="search-filter"
           value={props.searchText}
           placeholder="seconds"
           className={classes.textField}
           margin="normal"
           onChange={props.searchByCriteria}
-          helperText="cooked in the past few seconds"
+          helperText="made in the past few seconds"
+          aria-label="Search"
         />
       <div>
       <label htmlFor="active-filter"

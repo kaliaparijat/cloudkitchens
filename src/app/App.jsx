@@ -62,7 +62,7 @@ class App extends React.Component {
       });
     }
 
-    if (event.target.name === 'cooked') {
+    if (event.target.name === 'search-filter') {
       return this.setState({
         isHistorical: false,
         isCooking: false,
