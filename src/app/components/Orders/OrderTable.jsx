@@ -7,6 +7,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import CheckIcon from '@material-ui/icons/Check';
 import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
@@ -33,15 +36,24 @@ export const SimpleOrderTable = (props) => {
     <Table className={classes.table}>
       <TableHead>
         <TableRow>
+          <TableCell align="left">Actions</TableCell>
           <TableCell align="left">Status</TableCell>
           <TableCell align="left">Food item</TableCell>
           <TableCell align="left">Order location</TableCell>
-          <TableCell align="left">Actions</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {props.orders.map((order) => (
+        {props.orders.sort((a, b) => a.sent_at_second - b.sent_at_second).map((order) => (
           <TableRow key={order.id} data-testid={order.id} >
+            <TableCell align="left">
+              <IconButton
+                onClick={() => props.handleEdit(order.id)}
+                aria-label={`edit`}
+              >
+
+                {props.editingOrderId === order.id? <CheckIcon /> : <EditIcon/>}
+              </IconButton>
+            </TableCell>
             <TableCell align="left">
               { props.editingOrderId !== order.id ?
                 capitalize(order.event_name.toLowerCase().replace('_', ' ')) :
@@ -62,14 +74,6 @@ export const SimpleOrderTable = (props) => {
             </TableCell>
             <TableCell align="left">{order.name}</TableCell>
             <TableCell align="left">{order.destination}</TableCell>
-            <TableCell align="left">
-              <button
-                onClick={() => props.handleEdit(order.id)}
-                aria-label={`action-button-${order.id}`}
-              >
-                {props.editingOrderId === order.id? 'Done' : 'Edit'}
-              </button>
-            </TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -38,7 +38,13 @@ class App extends React.Component {
   handleNewReceivedOrders(newOrders) {
     const orderMap = this.state.orders;
     newOrders.forEach((order) => {
-      orderMap[order.id] = order
+        const currOrder = orderMap[order.id] || order;
+        // if the order exists in the app state, update all properties but for name, destination and event_name
+       // if it did not exist, then the following ops don't really matter
+        currOrder.name = order.name;
+        currOrder.destination = order.destination;
+        currOrder.event_name = order.event_name;
+        orderMap[order.id] = currOrder;
     });
     this.setState({
       orders: orderMap

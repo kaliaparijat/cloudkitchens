@@ -2,7 +2,7 @@
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-var OrderData = require("../public/data/challenge_data.json"); // TODO: obsolete challenge_data available in src folder
+var OrderData = require("../public/data/challenge_data.json");
 
 const groupOrdersByTimeReceived = (orders) => {
     orders.sort((a, b) => a.sent_at_second - b.sent_at_second);
@@ -17,17 +17,12 @@ const groupOrdersByTimeReceived = (orders) => {
     return groupedOrders;
 };
 
-const displayOrders = groupOrdersByTimeReceived(OrderData);
-
-app.get('/api/modify_order/order_id', function(request, response) {
-  response.json({'foo': 'bar'});
-});
 
 io.on('connection', function(socket) {
 
   socket.on('ready', () => {
       let seconds = 0;
-      const totalOrders = displayOrders.length;
+      const displayOrders = groupOrdersByTimeReceived(OrderData);
       const intervalId = setInterval(() => {
           seconds++;
           if (displayOrders[seconds]) {
