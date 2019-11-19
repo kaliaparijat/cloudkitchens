@@ -117,7 +117,7 @@ describe('<App />', () => {
 
     });
 
-    describe (' when the user wants to edit an order', () => {
+    describe ('when the user wants to edit an order', () => {
 
       beforeEach(() => {
         const { getByTestId } = app;
@@ -135,6 +135,27 @@ describe('<App />', () => {
         const selectMenu = getByLabelText('select-menu-4b76edbf');
         expect(selectMenu).toBeTruthy();
       });
+
+      it ('should display a check icon in place of the edit icon for the order the user wants to edit', () => {
+
+      });
+
+      describe('when the user updates an order', () => {
+        beforeEach(() => {
+          const { getByTestId } = app;
+          fireEvent.change(selectMenu, { target : { value : 'DRIVER_RECEIVED'}});
+        });
+
+        it('should display the orders updated status to the user', () => {
+
+        });
+
+
+
+
+      });
     });
+
+
   });
 });

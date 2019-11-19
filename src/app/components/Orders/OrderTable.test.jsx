@@ -65,10 +65,6 @@ describe('SimpleOrderTable with no editingOrderId prop', () => {
         it('should render a select menu under the status column for the order that has the orderID same as editingOrderId', () => {
             expect(selectMenu).toBeTruthy();
         });
-
-
-        it('should invoke handleOrderStatusUpdate when the user udpates the status of a given order', () => {
-        });
     });
 
 });

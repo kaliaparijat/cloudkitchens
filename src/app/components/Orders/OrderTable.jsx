@@ -47,11 +47,10 @@ export const SimpleOrderTable = (props) => {
           <TableRow key={order.id} data-testid={order.id} >
             <TableCell align="left">
               <IconButton
-                onClick={() => props.handleEdit(order.id)}
+                onClick={(e) => props.handleEdit(order.id)}
                 aria-label={`edit`}
                 data-testid={`action-button-${order.id}`}
               >
-
                 {props.editingOrderId === order.id? <CheckIcon /> : <EditIcon/>}
               </IconButton>
             </TableCell>
@@ -61,7 +60,7 @@ export const SimpleOrderTable = (props) => {
                 (
                   <Select
                     value={order.event_name}
-                    onChange={props.handleOrderUpdate}
+                    onChange={(e) => props.handleUpdate(e, order.id)}
                     aria-label={`select-menu-${order.id}`}
                   >
                     <MenuItem value="CREATED">Created</MenuItem>

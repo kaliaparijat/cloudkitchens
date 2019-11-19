@@ -18,10 +18,9 @@ class App extends React.Component {
     isCooking: false,
     isHistorical: false,
     isEditing: false,
+    editingOrderId: false,
     orders: {},
-  }
-
-  editingOrderId;
+  };
 
   async componentDidMount() {
     const socket = socketConnection('http://localhost:8080');
@@ -44,6 +43,7 @@ class App extends React.Component {
         currOrder.name = order.name;
         currOrder.destination = order.destination;
         currOrder.event_name = order.event_name;
+        currOrder.updated = false;
         orderMap[order.id] = currOrder;
     });
     this.setState({
@@ -102,18 +102,24 @@ class App extends React.Component {
   }
 
   editOrder = (orderId) => {
-
-    this.editingOrderId = orderId;
-    this.setState({ isEditing: !this.state.isEditing });
-    // once the order has been updated, invoke forceUpdate so that the order can be shown to the user
+    this.setState({
+      isEditing: !this.state.isEditing,
+      editingOrderId: orderId
+    });
   }
 
-  handleOrderUpdate = (event, orderId) => {
-   const value = event.currentTarget.value;
-   if (this.state.orders[orderId].event_name) {
-
-   }
+  updateOrderStatus = (event, orderId) => {
+    this.setState(prevState => {
+      const order = prevState.orders.orderId;
+      order.event_name = event.target.value;
+      order.updated = true;
+      return {
+        orders: {orderId: order},
+        isEditing: false
+      }
+    });
   }
+
 
   render() {
     const { searchText, isCooking, isHistorical } = this.state;
@@ -129,7 +135,8 @@ class App extends React.Component {
           <SimpleOrderTable
             orders={displayOrders}
             handleEdit={this.editOrder}
-            editingOrderId={this.editingOrderId}
+            handleUpdate={this.updateOrderStatus}
+            editingOrderId={this.state.editingOrderId}
           />
         </Paper>
       </Container>
