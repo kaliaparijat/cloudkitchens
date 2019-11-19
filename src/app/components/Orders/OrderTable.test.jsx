@@ -40,8 +40,8 @@ describe('SimpleOrderTable with no editingOrderId prop', () => {
     });
 
     it('should invoke handleEdit correctly with the right order ID parameter when the user clicks on an Edit button', () => {
-        const { getAllByLabelText, asFragment } = renderedOrderTable;
-        const editButton = getAllByLabelText('Edit')[0];
+        const { getByTestId, asFragment } = renderedOrderTable;
+        const editButton = getByTestId('action-button-4b76edxf');
         fireEvent.click(editButton);
         expect(handleOrderEdit).toHaveBeenCalled();
         expect(handleOrderEdit).toHaveBeenCalledWith('4b76edxf');

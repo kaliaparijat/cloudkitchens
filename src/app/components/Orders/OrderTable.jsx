@@ -49,6 +49,7 @@ export const SimpleOrderTable = (props) => {
               <IconButton
                 onClick={() => props.handleEdit(order.id)}
                 aria-label={`edit`}
+                data-testid={`action-button-${order.id}`}
               >
 
                 {props.editingOrderId === order.id? <CheckIcon /> : <EditIcon/>}

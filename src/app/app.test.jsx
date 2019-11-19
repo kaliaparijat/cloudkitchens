@@ -120,8 +120,8 @@ describe('<App />', () => {
     describe (' when the user wants to edit an order', () => {
 
       beforeEach(() => {
-        const { getAllByText } = app;
-        const editButton = getAllByText('Edit')[0];
+        const { getByTestId } = app;
+        const editButton = getByTestId('action-button-4b76edbf')
         fireEvent.click(editButton);
       });
 
