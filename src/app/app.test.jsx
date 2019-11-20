@@ -64,7 +64,7 @@ describe('<App />', () => {
 
     beforeEach(() => {
       app = render(<App />)
-    })
+    });
 
     it ('should display only active orders from the orders it receives', () => {
       const { getByTestId, getByText } = app;

@@ -43,7 +43,7 @@ export const SimpleOrderTable = (props) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {props.orders.sort((a, b) => a.sent_at_second - b.sent_at_second).map((order) => (
+        {props.orders.map((order) => (
           <TableRow key={order.id} data-testid={order.id} >
             <TableCell align="left">
               <IconButton

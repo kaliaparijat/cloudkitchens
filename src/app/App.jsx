@@ -30,24 +30,40 @@ class App extends React.Component {
     });
   }
 
-  shouldComponentUpdate() {
-    return !this.state.isEditing; // prevent updates to the order table if it is currently being edited
+  shouldComponentUpdate(nextState) {
+    return !this.state.isEditing; // when an order is being edited, prevent any updates to the user interface
+  }
+
+  isNewOrderOrNotAnUpdatedExistingOrder(order) {
+    return !order.hasOwnProperty('updatedByUser') || !order.updatedByUser; // a new order does not have 'updatedByUser property', an existing order updatedByUser will have this property set to true'
   }
 
   handleNewReceivedOrders(newOrders) {
-    const orderMap = this.state.orders;
-    newOrders.forEach((order) => {
-        const currOrder = orderMap[order.id] || order;
-        // if the order exists in the app state, update all properties but for name, destination and event_name
-       // if it did not exist, then the following ops don't really matter
-        currOrder.name = order.name;
-        currOrder.destination = order.destination;
-        currOrder.event_name = order.event_name;
-        currOrder.updated = false;
-        orderMap[order.id] = currOrder;
-    });
-    this.setState({
-      orders: orderMap
+    this.setState(() => {
+      const updatedOrders = {};
+      newOrders.forEach((order) => {
+        const currOrder = Object.assign( this.state.orders[order.id] || order, {});
+        if (this.isNewOrderOrNotAnUpdatedExistingOrder(order)) {
+          currOrder.name = order.name;
+          currOrder.destination = order.destination;
+          currOrder.event_name = order.event_name;
+          currOrder.updatedByUser = false;
+          updatedOrders[order.id] = currOrder;
+        }
+      });
+      const nuOrders = {
+        orders: {
+          ...this.state.orders,
+          ...updatedOrders,
+        }
+      };
+      console.log("Orders that are being added", nuOrders);
+      return {
+        orders: {
+          ...this.state.orders,
+          ...updatedOrders,
+        }
+      }
     });
   }
 
@@ -98,25 +114,37 @@ class App extends React.Component {
         return order.event_name === 'CANCELLED' || order.event_name === 'DELIVERED';
       }
       return isActiveOrder(order.event_name);
-    });
+    }).sort((a, b) => a.sent_at_second - b.sent_at_second);
   }
 
   editOrder = (orderId) => {
     this.setState({
       isEditing: !this.state.isEditing,
-      editingOrderId: orderId
+      editingOrderId: !this.state.isEditing && orderId,
     });
   }
 
   updateOrderStatus = (event, orderId) => {
     this.setState(prevState => {
-      const order = prevState.orders.orderId;
+      const order = Object.assign(prevState.orders[orderId]);
       order.event_name = event.target.value;
-      order.updated = true;
+      order.updatedByUser = true;
+
+
+      const updatedOrder = { orders: {
+        ...prevState.orders,
+        },
+      };
+      debugger;
+
+      console.log(`An order was updated:`, updatedOrder);
       return {
-        orders: {orderId: order},
+        orders: {
+          ...prevState.orders,
+          orderId: order
+        },
         isEditing: false
-      }
+      };
     });
   }
 
